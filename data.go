@@ -79,7 +79,7 @@ func (a *appData) Close() error {
 	return a.db.Close()
 }
 
-func (a *appData) getKey(name string) (*shoppingList, uint64, error) {
+func (a *appData) newTuppleKeyShoppingList(name string) (*shoppingList, uint64, error) {
 	newShoppingList := &shoppingList{Name: name}
 
 	var key uint64

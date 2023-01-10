@@ -88,7 +88,7 @@ func (a *appData) buildTabItem(key uint64, sl *shoppingList) *container.TabItem 
 
 func (a *appData) createTab() *container.TabItem {
 	minimalPlaceIndex := a.minimalPlaceIndex()
-	newShoppingList, key, err := a.getKey(fmt.Sprintf("Unknown place %d", minimalPlaceIndex))
+	newShoppingList, key, err := a.newTuppleKeyShoppingList(fmt.Sprintf("Unknown place %d", minimalPlaceIndex))
 	if err != nil {
 		return nil
 	}
