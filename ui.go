@@ -72,17 +72,14 @@ func (a *appData) buildTabItem(key uint64, sl *shoppingList) *container.TabItem 
 		}),
 	)
 
-	sl.searchEntry = widget.NewEntry()
-	sl.searchEntry.OnSubmitted = func(s string) {
+	sl.filterEntry = widget.NewEntry()
+	sl.filterEntry.OnChanged = func(s string) {
 		filter = s
 		sl.list.Refresh()
 	}
 
 	return container.NewTabItem(sl.Name, container.NewBorder(
-		container.NewBorder(nil, nil, widget.NewLabel("Filter"), widget.NewButtonWithIcon("", theme.SearchIcon(), func() {
-			filter = sl.searchEntry.Text
-			sl.list.Refresh()
-		}), sl.searchEntry),
+		container.NewBorder(nil, nil, widget.NewLabel("Filter"), nil, sl.filterEntry),
 		toolbar,
 		nil, nil,
 		sl.list),

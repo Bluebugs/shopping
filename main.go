@@ -21,7 +21,7 @@ type shoppingList struct {
 	Items []item
 
 	list        *widget.List
-	searchEntry *widget.Entry
+	filterEntry *widget.Entry
 }
 
 type appData struct {
