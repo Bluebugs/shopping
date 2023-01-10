@@ -35,9 +35,9 @@ type appData struct {
 }
 
 func main() {
-	a := app.NewWithID("github.com.bluebugs.course")
+	a := app.NewWithID("github.com.bluebugs.shopping")
 
-	myApp := &appData{shoppingLists: map[uint64]*shoppingList{}, app: a, win: a.NewWindow("Liste de courses")}
+	myApp := &appData{shoppingLists: map[uint64]*shoppingList{}, app: a, win: a.NewWindow("Shopping List")}
 
 	if err := myApp.loadShoppingLists(); err != nil {
 		log.Panic(err)
