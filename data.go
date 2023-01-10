@@ -30,21 +30,6 @@ func saveShoppingListInTx(tx *bbolt.Tx, sl *shoppingList) error {
 	return b.Put(binary.BigEndian.AppendUint64([]byte{}, sl.key), buf.Bytes())
 }
 
-func (a *appData) deleteShoppingList(index int, sl *shoppingList) error {
-	if index < len(a.shoppingLists)-1 {
-		a.shoppingLists[index] = a.shoppingLists[len(a.shoppingLists)-1]
-	}
-	a.shoppingLists = a.shoppingLists[:len(a.shoppingLists)-1]
-
-	return a.db.Update(func(tx *bbolt.Tx) error {
-		b := tx.Bucket([]byte("shoppingLists"))
-		if b == nil {
-			return fmt.Errorf("bucket not found")
-		}
-		return b.Delete(binary.BigEndian.AppendUint64([]byte{}, sl.key))
-	})
-}
-
 func (a *appData) loadShoppingLists() error {
 	dbURI, err := storage.Child(a.app.Storage().RootURI(), "shopping_list.boltdb")
 	if err != nil {
@@ -110,4 +95,19 @@ func (a *appData) newShoppingList(name string) (*shoppingList, error) {
 		return nil, err
 	}
 	return newShoppingList, nil
+}
+
+func (a *appData) deleteShoppingList(index int, sl *shoppingList) error {
+	if index < len(a.shoppingLists)-1 {
+		a.shoppingLists[index] = a.shoppingLists[len(a.shoppingLists)-1]
+	}
+	a.shoppingLists = a.shoppingLists[:len(a.shoppingLists)-1]
+
+	return a.db.Update(func(tx *bbolt.Tx) error {
+		b := tx.Bucket([]byte("shoppingLists"))
+		if b == nil {
+			return fmt.Errorf("bucket not found")
+		}
+		return b.Delete(binary.BigEndian.AppendUint64([]byte{}, sl.key))
+	})
 }
