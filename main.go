@@ -62,7 +62,7 @@ func main() {
 	}
 	myApp.tabs.SetTabLocation(container.TabLocationLeading)
 
-	myApp.win.SetContent(container.NewBorder(nil, nil, nil, nil, myApp.tabs))
+	myApp.win.SetContent(container.NewMax(myApp.tabs))
 	myApp.win.Resize(fyne.NewSize(800, 600))
 	myApp.win.SetOnClosed(func() {
 		myApp.Close()
