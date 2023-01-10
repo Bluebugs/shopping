@@ -10,13 +10,13 @@ import (
 	"go.etcd.io/bbolt"
 )
 
-func (a *appData) saveShoppingList(key uint64) error {
+func (a *appData) saveShoppingList(sl *shoppingList) error {
 	return a.db.Update(func(tx *bbolt.Tx) error {
-		return saveShoppingListInTx(tx, key, a.shoppingLists[key])
+		return saveShoppingListInTx(tx, sl)
 	})
 }
 
-func saveShoppingListInTx(tx *bbolt.Tx, key uint64, sl *shoppingList) error {
+func saveShoppingListInTx(tx *bbolt.Tx, sl *shoppingList) error {
 	var buf bytes.Buffer
 	enc := gob.NewEncoder(&buf)
 	err := enc.Encode(sl)
@@ -27,16 +27,21 @@ func saveShoppingListInTx(tx *bbolt.Tx, key uint64, sl *shoppingList) error {
 	if b == nil {
 		return fmt.Errorf("bucket not found")
 	}
-	return b.Put(binary.BigEndian.AppendUint64([]byte{}, key), buf.Bytes())
+	return b.Put(binary.BigEndian.AppendUint64([]byte{}, sl.key), buf.Bytes())
 }
 
-func (a *appData) deleteShoppingList(key uint64) error {
+func (a *appData) deleteShoppingList(index int, sl *shoppingList) error {
+	if index < len(a.shoppingLists)-1 {
+		a.shoppingLists[index] = a.shoppingLists[len(a.shoppingLists)-1]
+	}
+	a.shoppingLists = a.shoppingLists[:len(a.shoppingLists)-1]
+
 	return a.db.Update(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("shoppingLists"))
 		if b == nil {
 			return fmt.Errorf("bucket not found")
 		}
-		return b.Delete(binary.BigEndian.AppendUint64([]byte{}, key))
+		return b.Delete(binary.BigEndian.AppendUint64([]byte{}, sl.key))
 	})
 }
 
@@ -67,7 +72,9 @@ func (a *appData) loadShoppingLists() error {
 				return err
 			}
 
-			a.shoppingLists[binary.BigEndian.Uint64(k)] = &sl
+			sl.key = binary.BigEndian.Uint64(k)
+
+			a.shoppingLists = append(a.shoppingLists, &sl)
 			return nil
 		})
 	})
@@ -79,7 +86,7 @@ func (a *appData) Close() error {
 	return a.db.Close()
 }
 
-func (a *appData) newTuppleKeyShoppingList(name string) (*shoppingList, uint64, error) {
+func (a *appData) newShoppingList(name string) (*shoppingList, error) {
 	newShoppingList := &shoppingList{Name: name}
 
 	var key uint64
@@ -94,12 +101,13 @@ func (a *appData) newTuppleKeyShoppingList(name string) (*shoppingList, uint64, 
 			return err
 		}
 
-		a.shoppingLists[key] = newShoppingList
+		newShoppingList.key = key
+		a.shoppingLists = append(a.shoppingLists, newShoppingList)
 
-		return saveShoppingListInTx(tx, key, newShoppingList)
+		return saveShoppingListInTx(tx, newShoppingList)
 	})
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
-	return newShoppingList, key, nil
+	return newShoppingList, nil
 }

@@ -20,12 +20,14 @@ type shoppingList struct {
 	Name  string
 	Items []item
 
+	key uint64
+
 	list        *widget.List
 	filterEntry *widget.Entry
 }
 
 type appData struct {
-	shoppingLists map[uint64]*shoppingList
+	shoppingLists []*shoppingList
 
 	db *bbolt.DB
 
@@ -37,7 +39,7 @@ type appData struct {
 func main() {
 	a := app.NewWithID("github.com.bluebugs.shopping")
 
-	myApp := &appData{shoppingLists: map[uint64]*shoppingList{}, app: a, win: a.NewWindow("Shopping List")}
+	myApp := &appData{shoppingLists: []*shoppingList{}, app: a, win: a.NewWindow("Shopping List")}
 
 	if err := myApp.loadShoppingLists(); err != nil {
 		log.Panic(err)
@@ -45,16 +47,15 @@ func main() {
 
 	items := []*container.TabItem{}
 	for k := range myApp.shoppingLists {
-		items = append(items, myApp.buildTabItem(k, myApp.shoppingLists[k]))
+		items = append(items, myApp.buildTabItem(myApp.shoppingLists[k]))
 	}
 	myApp.tabs = container.NewDocTabs(items...)
 
 	myApp.tabs.CreateTab = myApp.createTab
-	myApp.tabs.OnClosed = func(i *container.TabItem) {
-		for k, v := range myApp.shoppingLists {
-			if v.Name == i.Text {
-				delete(myApp.shoppingLists, k)
-				myApp.deleteShoppingList(k)
+	myApp.tabs.OnClosed = func(item *container.TabItem) {
+		for index, value := range myApp.shoppingLists {
+			if value.Name == item.Text {
+				myApp.deleteShoppingList(index, value)
 				return
 			}
 		}

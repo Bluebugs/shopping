@@ -14,7 +14,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func (a *appData) buildTabItem(key uint64, sl *shoppingList) *container.TabItem {
+func (a *appData) buildTabItem(sl *shoppingList) *container.TabItem {
 	displayCheckedItem := true
 	filter := ""
 
@@ -34,7 +34,7 @@ func (a *appData) buildTabItem(key uint64, sl *shoppingList) *container.TabItem 
 	}, func() fyne.CanvasObject {
 		return widget.NewCheck("test", func(b bool) {})
 	}, func(lii widget.ListItemID, co fyne.CanvasObject) {
-		a.setFilteredItem(key, sl, filter, displayCheckedItem, lii, co)
+		a.setFilteredItem(sl, filter, displayCheckedItem, lii, co)
 	})
 
 	var toolbar *widget.Toolbar
@@ -53,11 +53,11 @@ func (a *appData) buildTabItem(key uint64, sl *shoppingList) *container.TabItem 
 	})
 
 	toolbar = widget.NewToolbar(
-		widget.NewToolbarAction(theme.ContentAddIcon(), a.addItem(key, sl)),
+		widget.NewToolbarAction(theme.ContentAddIcon(), a.addItem(sl)),
 		visibilityAction,
 		widget.NewToolbarSeparator(),
-		widget.NewToolbarAction(theme.DownloadIcon(), a.importYaml(key, sl)),
-		widget.NewToolbarAction(theme.UploadIcon(), a.exportYaml(key, sl)),
+		widget.NewToolbarAction(theme.DownloadIcon(), a.importYaml(sl)),
+		widget.NewToolbarAction(theme.UploadIcon(), a.exportYaml(sl)),
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(theme.ContentClearIcon(), func() {
 			keepItem := []item{}
@@ -67,7 +67,7 @@ func (a *appData) buildTabItem(key uint64, sl *shoppingList) *container.TabItem 
 				}
 			}
 			sl.Items = keepItem
-			a.saveShoppingList(key)
+			a.saveShoppingList(sl)
 			sl.list.Refresh()
 		}),
 	)
@@ -88,26 +88,29 @@ func (a *appData) buildTabItem(key uint64, sl *shoppingList) *container.TabItem 
 
 func (a *appData) createTab() *container.TabItem {
 	minimalPlaceIndex := a.minimalPlaceIndex()
-	newShoppingList, key, err := a.newTuppleKeyShoppingList(fmt.Sprintf("Unknown place %d", minimalPlaceIndex))
+	newShoppingList, err := a.newShoppingList(fmt.Sprintf("Unknown place %d", minimalPlaceIndex))
 	if err != nil {
 		return nil
 	}
 
-	newDocItem := a.buildTabItem(key, a.shoppingLists[key])
+	newDocItem := a.buildTabItem(newShoppingList)
 
 	newShoppingLocationEntry := widget.NewEntry()
 	dialog.ShowForm("New shopping place", "Create", "Cancel",
 		[]*widget.FormItem{{Text: "Name", Widget: newShoppingLocationEntry}}, func(confirm bool) {
 			if confirm {
 				newShoppingList.Name = newShoppingLocationEntry.Text
-				a.saveShoppingList(key)
+				a.saveShoppingList(newShoppingList)
 
 				newDocItem.Text = newShoppingList.Name
 				a.tabs.Refresh()
 			} else {
 				a.tabs.Remove(newDocItem)
-				delete(a.shoppingLists, key)
-				a.deleteShoppingList(key)
+				for index, value := range a.shoppingLists {
+					if value == newShoppingList {
+						a.deleteShoppingList(index, value)
+					}
+				}
 			}
 		}, a.win)
 	a.win.Canvas().Focus(newShoppingLocationEntry)
@@ -115,7 +118,7 @@ func (a *appData) createTab() *container.TabItem {
 	return newDocItem
 }
 
-func (a *appData) setFilteredItem(key uint64, sl *shoppingList, filter string, displayCheckedItem bool, index widget.ListItemID, co fyne.CanvasObject) {
+func (a *appData) setFilteredItem(sl *shoppingList, filter string, displayCheckedItem bool, index widget.ListItemID, co fyne.CanvasObject) {
 	var pos widget.ListItemID
 	for realIndex, i := range sl.Items {
 		if i.shouldFilter(filter, displayCheckedItem) {
@@ -130,7 +133,7 @@ func (a *appData) setFilteredItem(key uint64, sl *shoppingList, filter string, d
 			c.Checked = i.Checked
 			c.OnChanged = func(b bool) {
 				sl.Items[realIndex].Checked = b
-				a.saveShoppingList(key)
+				a.saveShoppingList(sl)
 			}
 			c.Refresh()
 			return
@@ -138,14 +141,14 @@ func (a *appData) setFilteredItem(key uint64, sl *shoppingList, filter string, d
 	}
 }
 
-func (a *appData) addItem(key uint64, sl *shoppingList) func() {
+func (a *appData) addItem(sl *shoppingList) func() {
 	return func() {
 		newItemEntry := widget.NewEntry()
 		dialog.ShowForm("New shopping item", "Create", "Cancel",
 			[]*widget.FormItem{{Text: "Name", Widget: newItemEntry}}, func(confirm bool) {
 				if confirm {
 					sl.Items = append(sl.Items, item{What: newItemEntry.Text})
-					a.saveShoppingList(key)
+					a.saveShoppingList(sl)
 					sl.list.Refresh()
 				}
 			}, a.win)
@@ -153,7 +156,7 @@ func (a *appData) addItem(key uint64, sl *shoppingList) func() {
 	}
 }
 
-func (a *appData) importYaml(key uint64, sl *shoppingList) func() {
+func (a *appData) importYaml(sl *shoppingList) func() {
 	return func() {
 		go func() {
 			dialog.ShowFileOpen(func(reader fyne.URIReadCloser, err error) {
@@ -169,13 +172,13 @@ func (a *appData) importYaml(key uint64, sl *shoppingList) func() {
 					return
 				}
 
-				a.saveShoppingList(key)
+				a.saveShoppingList(sl)
 			}, a.win)
 		}()
 	}
 }
 
-func (a *appData) exportYaml(key uint64, sl *shoppingList) func() {
+func (a *appData) exportYaml(sl *shoppingList) func() {
 	return func() {
 		go func() {
 			dialog.ShowFileSave(func(writer fyne.URIWriteCloser, err error) {
