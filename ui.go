@@ -19,11 +19,11 @@ func (a *appData) buildTabItem(sl *shoppingList) *container.TabItem {
 	filter := ""
 
 	sl.list = widget.NewList(func() int {
-		count := 0
 		if filter == "" && displayCheckedItem {
 			return len(sl.Items)
 		}
 
+		count := 0
 		for _, i := range sl.Items {
 			if i.shouldFilter(filter, displayCheckedItem) {
 				continue
