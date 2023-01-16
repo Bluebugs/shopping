@@ -1,14 +1,10 @@
 package main
 
 import (
-	"log"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-
-	"go.etcd.io/bbolt"
 )
 
 type item struct {
@@ -29,8 +25,6 @@ type shoppingList struct {
 type appData struct {
 	shoppingLists []*shoppingList
 
-	db *bbolt.DB
-
 	app  fyne.App
 	win  fyne.Window
 	tabs *container.DocTabs
@@ -41,16 +35,7 @@ func main() {
 
 	myApp := &appData{shoppingLists: []*shoppingList{}, app: a, win: a.NewWindow("Shopping List")}
 
-	if err := myApp.loadShoppingLists(); err != nil {
-		log.Panic(err)
-	}
-
-	items := []*container.TabItem{}
-	for k := range myApp.shoppingLists {
-		items = append(items, myApp.buildTabItem(myApp.shoppingLists[k]))
-	}
-	myApp.tabs = container.NewDocTabs(items...)
-
+	myApp.tabs = container.NewDocTabs()
 	myApp.tabs.CreateTab = myApp.createTab
 	myApp.tabs.OnClosed = func(item *container.TabItem) {
 		for index, value := range myApp.shoppingLists {
@@ -64,8 +49,5 @@ func main() {
 
 	myApp.win.SetContent(container.NewMax(myApp.tabs))
 	myApp.win.Resize(fyne.NewSize(800, 600))
-	myApp.win.SetOnClosed(func() {
-		myApp.Close()
-	})
 	myApp.win.ShowAndRun()
 }

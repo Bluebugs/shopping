@@ -10,8 +10,6 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-
-	"gopkg.in/yaml.v2"
 )
 
 func (a *appData) buildTabItem(sl *shoppingList) *container.TabItem {
@@ -55,9 +53,6 @@ func (a *appData) buildTabItem(sl *shoppingList) *container.TabItem {
 	toolbar = widget.NewToolbar(
 		widget.NewToolbarAction(theme.ContentAddIcon(), a.addItem(sl)),
 		visibilityAction,
-		widget.NewToolbarSeparator(),
-		widget.NewToolbarAction(theme.DownloadIcon(), a.importYaml(sl)),
-		widget.NewToolbarAction(theme.UploadIcon(), a.exportYaml(sl)),
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(theme.ContentClearIcon(), func() {
 			keepItem := []item{}
@@ -67,7 +62,6 @@ func (a *appData) buildTabItem(sl *shoppingList) *container.TabItem {
 				}
 			}
 			sl.Items = keepItem
-			a.saveShoppingList(sl)
 			sl.list.Refresh()
 		}),
 	)
@@ -100,7 +94,6 @@ func (a *appData) createTab() *container.TabItem {
 		[]*widget.FormItem{{Text: "Name", Widget: newShoppingLocationEntry}}, func(confirm bool) {
 			if confirm {
 				newShoppingList.Name = newShoppingLocationEntry.Text
-				a.saveShoppingList(newShoppingList)
 
 				newDocItem.Text = newShoppingList.Name
 				a.tabs.Refresh()
@@ -133,7 +126,6 @@ func (a *appData) setFilteredItem(sl *shoppingList, filter string, displayChecke
 			c.Checked = i.Checked
 			c.OnChanged = func(b bool) {
 				sl.Items[realIndex].Checked = b
-				a.saveShoppingList(sl)
 			}
 			c.Refresh()
 			return
@@ -148,52 +140,10 @@ func (a *appData) addItem(sl *shoppingList) func() {
 			[]*widget.FormItem{{Text: "Name", Widget: newItemEntry}}, func(confirm bool) {
 				if confirm {
 					sl.Items = append(sl.Items, item{What: newItemEntry.Text})
-					a.saveShoppingList(sl)
 					sl.list.Refresh()
 				}
 			}, a.win)
 		a.win.Canvas().Focus(newItemEntry)
-	}
-}
-
-func (a *appData) importYaml(sl *shoppingList) func() {
-	return func() {
-		go func() {
-			dialog.ShowFileOpen(func(reader fyne.URIReadCloser, err error) {
-				if reader == nil || err != nil {
-					return
-				}
-
-				defer reader.Close()
-
-				// Import shopping list from a yaml file to the selected shopping list sl
-				err = yaml.NewDecoder(reader).Decode(sl)
-				if err != nil {
-					return
-				}
-
-				a.saveShoppingList(sl)
-			}, a.win)
-		}()
-	}
-}
-
-func (a *appData) exportYaml(sl *shoppingList) func() {
-	return func() {
-		go func() {
-			dialog.ShowFileSave(func(writer fyne.URIWriteCloser, err error) {
-				if writer == nil || err != nil {
-					return
-				}
-				defer writer.Close()
-
-				// Export shopping list sl to a yaml file
-				err = yaml.NewEncoder(writer).Encode(sl)
-				if err != nil {
-					return
-				}
-			}, a.win)
-		}()
 	}
 }
 
