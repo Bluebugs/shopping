@@ -1,0 +1,157 @@
+<canvas padded size="800x600">
+	<content>
+		<container pos="4,4" size="792x592">
+			<widget size="792x592" type="*container.DocTabs">
+				<container size="151x592">
+					<widget size="151x552" type="*widget.Scroll">
+						<container size="151x552">
+							<widget size="151x36" type="*container.tabButton">
+								<text bold pos="4,8" size="143x19">test</text>
+							</widget>
+							<widget pos="0,40" size="151x36" type="*container.tabButton">
+								<text bold color="primary" pos="4,8" size="143x19">Unknown place 1</text>
+							</widget>
+						</container>
+					</widget>
+					<container pos="0,556" size="151x36">
+						<widget size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle fillColor="rgba(0,0,0,0)" size="36x36"/>
+							<image fillMode="contain" pos="8,8" rsc="contentAddIcon" size="iconInlineSize"/>
+						</widget>
+						<widget pos="40,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="more-vertical.svg" size="iconInlineSize" themed="default"/>
+						</widget>
+					</container>
+				</container>
+				<rectangle fillColor="shadow" pos="151,0" size="4x592"/>
+				<rectangle fillColor="primary" pos="151,40" size="4x36"/>
+				<container pos="155,0" size="636x592">
+					<widget pos="0,39" size="636x512" type="*widget.List">
+						<widget size="636x512" type="*widget.Scroll">
+							<container size="636x512">
+							</container>
+						</widget>
+					</widget>
+					<container size="636x35">
+						<widget pos="53,0" size="583x35" type="*widget.Entry">
+							<rectangle fillColor="inputBackground" pos="2,2" size="579x31"/>
+							<rectangle pos="1,1" size="580x32" strokeColor="inputBorder" strokeWidth="2"/>
+							<widget pos="0,2" size="583x31" type="*widget.Scroll">
+								<widget size="583x31" type="*widget.entryContent">
+									<widget size="583x31" type="*widget.RichText">
+										<text color="placeholder" pos="8,6" size="0x19"></text>
+									</widget>
+									<widget size="583x31" type="*widget.RichText">
+										<text pos="8,6" size="0x19"></text>
+									</widget>
+								</widget>
+							</widget>
+						</widget>
+						<widget size="49x35" type="*widget.Label">
+							<text pos="8,8" size="33x19">Filter</text>
+						</widget>
+					</container>
+					<widget pos="0,556" size="636x36" type="*widget.Toolbar">
+						<widget size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="contentAddIcon" size="iconInlineSize"/>
+						</widget>
+						<widget pos="40,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="visibilityIcon" size="iconInlineSize"/>
+						</widget>
+						<rectangle fillColor="foreground" pos="80,0" size="1x36"/>
+						<widget pos="85,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="downloadIcon" size="iconInlineSize"/>
+						</widget>
+						<widget pos="125,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="upload.svg" size="iconInlineSize" themed="default"/>
+						</widget>
+						<spacer size="0x0"/>
+						<widget pos="600,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="contentClearIcon" size="iconInlineSize"/>
+						</widget>
+					</widget>
+				</container>
+			</widget>
+		</container>
+	</content>
+	<overlay>
+		<widget size="800x600" type="*widget.PopUp">
+			<widget pos="291,224" size="216x150" type="*widget.Shadow">
+				<radialGradient centerOffset="0.5,0.5" pos="-24,-24" size="24x24" startColor="shadow"/>
+				<linearGradient endColor="shadow" pos="0,-24" size="216x24"/>
+				<radialGradient centerOffset="-0.5,0.5" pos="216,-24" size="24x24" startColor="shadow"/>
+				<linearGradient angle="270" pos="216,0" size="24x150" startColor="shadow"/>
+				<radialGradient centerOffset="-0.5,-0.5" pos="216,150" size="24x24" startColor="shadow"/>
+				<linearGradient pos="0,150" size="216x24" startColor="shadow"/>
+				<radialGradient centerOffset="0.5,-0.5" pos="-24,150" size="24x24" startColor="shadow"/>
+				<linearGradient angle="270" endColor="shadow" pos="-24,0" size="24x150"/>
+			</widget>
+			<rectangle fillColor="shadow" size="800x600"/>
+			<rectangle fillColor="overlayBackground" pos="291,224" size="216x150"/>
+			<container pos="295,228" size="208x142">
+				<image pos="114,-4" size="98x98"/>
+				<widget size="208x142" type="*dialog.themedBackground">
+					<rectangle fillColor="rgba(34,34,34,230)" size="208x142"/>
+				</widget>
+				<widget pos="16,51" size="176x35" type="*widget.Form">
+					<container size="176x35">
+						<container size="176x35">
+							<text alignment="trailing" bold pos="8,8" size="41x19">Name</text>
+							<widget pos="61,0" size="114x35" type="*widget.Entry">
+								<rectangle fillColor="inputBackground" pos="2,2" size="110x31"/>
+								<rectangle pos="1,1" size="112x32" strokeColor="primary" strokeWidth="2"/>
+								<widget pos="0,2" size="114x31" type="*widget.Scroll">
+									<widget size="114x31" type="*widget.entryContent">
+										<widget size="114x31" type="*widget.RichText">
+											<text color="placeholder" pos="8,6" size="0x19"></text>
+										</widget>
+										<widget size="114x31" type="*widget.RichText">
+											<text pos="8,6" size="0x19"></text>
+										</widget>
+										<rectangle fillColor="primary" pos="7,6" size="2x19"/>
+									</widget>
+								</widget>
+							</widget>
+						</container>
+					</container>
+				</widget>
+				<container pos="16,90" size="176x36">
+					<spacer size="0x0"/>
+					<widget size="86x36" type="*widget.Button">
+						<rectangle fillColor="button" size="86x36"/>
+						<rectangle size="0x0"/>
+						<widget pos="32,8" size="46x20" type="*widget.RichText">
+							<text alignment="center" bold size="46x19">Cancel</text>
+						</widget>
+						<image fillMode="contain" pos="8,8" rsc="cancelIcon" size="iconInlineSize"/>
+					</widget>
+					<widget pos="90,0" size="86x36" type="*widget.Button">
+						<rectangle fillColor="primary" size="86x36"/>
+						<rectangle size="0x0"/>
+						<widget pos="32,8" size="46x20" type="*widget.RichText">
+							<text alignment="center" bold color="background" size="46x19">Create</text>
+						</widget>
+						<image fillMode="contain" pos="8,8" rsc="confirmIcon" size="iconInlineSize" themed="inverted"/>
+					</widget>
+					<spacer size="0x0"/>
+				</container>
+				<widget size="0x0" type="*widget.Label">
+					<text bold pos="8,8" size="140x19">New shopping place</text>
+				</widget>
+			</container>
+		</widget>
+	</overlay>
+</canvas>

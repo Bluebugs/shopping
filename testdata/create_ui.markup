@@ -1,0 +1,109 @@
+<canvas padded size="800x600">
+	<content>
+		<container pos="4,4" size="792x592">
+			<widget size="792x592" type="*container.DocTabs">
+				<container size="76x592">
+					<widget size="76x552" type="*widget.Scroll">
+						<container size="76x552">
+							<widget size="76x36" type="*container.tabButton">
+								<text bold color="primary" pos="4,8" size="68x19">test</text>
+							</widget>
+						</container>
+					</widget>
+					<container pos="0,556" size="76x36">
+						<widget size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="contentAddIcon" size="iconInlineSize"/>
+						</widget>
+						<widget pos="40,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="more-vertical.svg" size="iconInlineSize" themed="default"/>
+						</widget>
+					</container>
+				</container>
+				<rectangle fillColor="shadow" pos="76,0" size="4x592"/>
+				<rectangle fillColor="primary" pos="76,0" size="4x36"/>
+				<container pos="80,0" size="712x592">
+					<widget pos="0,39" size="712x512" type="*widget.List">
+						<widget size="712x512" type="*widget.Scroll">
+							<container size="712x512">
+								<widget size="712x35" type="*widget.listItem">
+									<widget size="712x35" type="*widget.Check">
+										<circle pos="2,3" size="28x28"/>
+										<rectangle fillColor="inputBackground" pos="10,11" size="12x12"/>
+										<image pos="6,7" rsc="checkButtonIcon" size="iconInlineSize" themed="inputBorder"/>
+										<text pos="32,0" size="680x35">unchecked</text>
+									</widget>
+								</widget>
+								<widget pos="0,39" size="712x35" type="*widget.listItem">
+									<widget size="712x35" type="*widget.Check">
+										<circle pos="2,3" size="28x28"/>
+										<rectangle fillColor="background" pos="10,11" size="12x12"/>
+										<image pos="6,7" rsc="checkButtonCheckedIcon" size="iconInlineSize" themed="primary"/>
+										<text pos="32,0" size="680x35">checked</text>
+									</widget>
+								</widget>
+								<widget size="0x0" type="*widget.Separator">
+									<rectangle fillColor="disabled" size="0x0"/>
+								</widget>
+								<widget pos="0,36" size="712x1" type="*widget.Separator">
+									<rectangle fillColor="disabled" size="712x1"/>
+								</widget>
+							</container>
+						</widget>
+					</widget>
+					<container size="712x35">
+						<widget pos="53,0" size="658x35" type="*widget.Entry">
+							<rectangle fillColor="inputBackground" pos="2,2" size="654x31"/>
+							<rectangle pos="1,1" size="656x32" strokeColor="inputBorder" strokeWidth="2"/>
+							<widget pos="0,2" size="658x31" type="*widget.Scroll">
+								<widget size="658x31" type="*widget.entryContent">
+									<widget size="658x31" type="*widget.RichText">
+										<text color="placeholder" pos="8,6" size="0x19"></text>
+									</widget>
+									<widget size="658x31" type="*widget.RichText">
+										<text pos="8,6" size="0x19"></text>
+									</widget>
+								</widget>
+							</widget>
+						</widget>
+						<widget size="49x35" type="*widget.Label">
+							<text pos="8,8" size="33x19">Filter</text>
+						</widget>
+					</container>
+					<widget pos="0,556" size="712x36" type="*widget.Toolbar">
+						<widget size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="contentAddIcon" size="iconInlineSize"/>
+						</widget>
+						<widget pos="40,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="visibilityIcon" size="iconInlineSize"/>
+						</widget>
+						<rectangle fillColor="foreground" pos="80,0" size="1x36"/>
+						<widget pos="85,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="downloadIcon" size="iconInlineSize"/>
+						</widget>
+						<widget pos="125,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="upload.svg" size="iconInlineSize" themed="default"/>
+						</widget>
+						<spacer size="0x0"/>
+						<widget pos="676,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="contentClearIcon" size="iconInlineSize"/>
+						</widget>
+					</widget>
+				</container>
+			</widget>
+		</container>
+	</content>
+</canvas>
