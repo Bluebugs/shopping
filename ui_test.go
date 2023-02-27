@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -12,7 +11,7 @@ import (
 )
 
 func setupAppData() (*appData, func()) {
-	tempFile, err := ioutil.TempFile("", "test.db")
+	tempFile, err := os.CreateTemp("", "test.db")
 	if err != nil {
 		panic(err)
 	}
