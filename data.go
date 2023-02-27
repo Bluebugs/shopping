@@ -30,17 +30,7 @@ func saveShoppingListInTx(tx *bbolt.Tx, sl *shoppingList) error {
 	return b.Put(binary.BigEndian.AppendUint64([]byte{}, sl.key), buf.Bytes())
 }
 
-func (a *appData) loadShoppingLists() error {
-	dbURI, err := storage.Child(a.app.Storage().RootURI(), "shopping_list.boltdb")
-	if err != nil {
-		return err
-	}
-
-	a.db, err = bbolt.Open(dbURI.Path(), 0600, nil)
-	if err != nil {
-		return err
-	}
-
+func (a *appData) loadShoppingListsFromDB() error {
 	a.db.View(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("shoppingLists"))
 		if b == nil {
@@ -65,6 +55,20 @@ func (a *appData) loadShoppingLists() error {
 	})
 
 	return nil
+}
+
+func (a *appData) loadShoppingLists() error {
+	dbURI, err := storage.Child(a.app.Storage().RootURI(), "shopping_list.boltdb")
+	if err != nil {
+		return err
+	}
+
+	a.db, err = bbolt.Open(dbURI.Path(), 0600, nil)
+	if err != nil {
+		return err
+	}
+
+	return a.loadShoppingListsFromDB()
 }
 
 func (a *appData) Close() error {

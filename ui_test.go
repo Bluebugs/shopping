@@ -10,7 +10,7 @@ import (
 	"go.etcd.io/bbolt"
 )
 
-func setupAppData() (*appData, func()) {
+func setupAppDataWithTemporaryDb() (*appData, func()) {
 	tempFile, err := os.CreateTemp("", "test.db")
 	if err != nil {
 		panic(err)
@@ -51,7 +51,7 @@ func setupAppData() (*appData, func()) {
 }
 
 func Test_CheckUncheck(t *testing.T) {
-	a, done := setupAppData()
+	a, done := setupAppDataWithTemporaryDb()
 	defer done()
 	assert.NotNil(t, a)
 
@@ -71,7 +71,7 @@ func Test_CheckUncheck(t *testing.T) {
 }
 
 func Test_AddCancelShoppingList(t *testing.T) {
-	a, done := setupAppData()
+	a, done := setupAppDataWithTemporaryDb()
 	defer done()
 	assert.NotNil(t, a)
 
@@ -93,7 +93,7 @@ func Test_AddCancelShoppingList(t *testing.T) {
 }
 
 func Test_AddModifyRemoveShoppingList(t *testing.T) {
-	a, done := setupAppData()
+	a, done := setupAppDataWithTemporaryDb()
 	defer done()
 	assert.NotNil(t, a)
 
