@@ -14,6 +14,28 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+func (a *appData) createUI() {
+	items := []*container.TabItem{}
+	for k := range a.shoppingLists {
+		items = append(items, a.buildTabItem(a.shoppingLists[k]))
+	}
+	a.tabs = container.NewDocTabs(items...)
+
+	a.tabs.CreateTab = a.createTab
+	a.tabs.OnClosed = func(item *container.TabItem) {
+		for index, value := range a.shoppingLists {
+			if value.Name == item.Text {
+				a.deleteShoppingList(index, value)
+				return
+			}
+		}
+	}
+	a.tabs.SetTabLocation(container.TabLocationLeading)
+
+	a.win.SetContent(container.NewMax(a.tabs))
+	a.win.Resize(fyne.NewSize(800, 600))
+}
+
 func (a *appData) buildTabItem(sl *shoppingList) *container.TabItem {
 	displayCheckedItem := true
 	filter := ""

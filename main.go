@@ -45,25 +45,7 @@ func main() {
 		log.Panic(err)
 	}
 
-	items := []*container.TabItem{}
-	for k := range myApp.shoppingLists {
-		items = append(items, myApp.buildTabItem(myApp.shoppingLists[k]))
-	}
-	myApp.tabs = container.NewDocTabs(items...)
-
-	myApp.tabs.CreateTab = myApp.createTab
-	myApp.tabs.OnClosed = func(item *container.TabItem) {
-		for index, value := range myApp.shoppingLists {
-			if value.Name == item.Text {
-				myApp.deleteShoppingList(index, value)
-				return
-			}
-		}
-	}
-	myApp.tabs.SetTabLocation(container.TabLocationLeading)
-
-	myApp.win.SetContent(container.NewMax(myApp.tabs))
-	myApp.win.Resize(fyne.NewSize(800, 600))
+	myApp.createUI()
 	myApp.win.SetOnClosed(func() {
 		myApp.Close()
 	})
