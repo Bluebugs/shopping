@@ -5,9 +5,11 @@ import (
 	"encoding/binary"
 	"encoding/gob"
 	"fmt"
+	"io"
 
 	"fyne.io/fyne/v2/storage"
 	"go.etcd.io/bbolt"
+	"gopkg.in/yaml.v2"
 )
 
 func (a *appData) saveShoppingList(sl *shoppingList) error {
@@ -114,4 +116,18 @@ func (a *appData) deleteShoppingList(index int, sl *shoppingList) error {
 		}
 		return b.Delete(binary.BigEndian.AppendUint64([]byte{}, sl.key))
 	})
+}
+
+func (sl *shoppingList) exportYaml(writer io.WriteCloser) error {
+	defer writer.Close()
+
+	// Export shopping list sl to a yaml file
+	return yaml.NewEncoder(writer).Encode(sl)
+}
+
+func (sl *shoppingList) importYaml(reader io.ReadCloser) error {
+	defer reader.Close()
+
+	// Import shopping list sl from a yaml file
+	return yaml.NewDecoder(reader).Decode(sl)
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"testing"
 
@@ -62,4 +63,38 @@ func Test_saveLoad(t *testing.T) {
 	assert.Equal(t, false, a.shoppingLists[0].Items[0].Checked)
 	assert.Equal(t, "checked", a.shoppingLists[0].Items[1].What)
 	assert.Equal(t, true, a.shoppingLists[0].Items[1].Checked)
+}
+
+func Test_importExportYaml(t *testing.T) {
+	sl := &shoppingList{
+		Name: "test",
+		Items: []item{
+			{
+				What:    "unchecked",
+				Checked: false,
+			},
+			{
+				What:    "checked",
+				Checked: true,
+			},
+		},
+	}
+
+	tmp, err := os.CreateTemp("", "test.yaml")
+	assert.Nil(t, err)
+	defer os.Remove(tmp.Name())
+
+	err = sl.exportYaml(tmp)
+	assert.Nil(t, err)
+
+	reader, err := os.Open(tmp.Name())
+	assert.Nil(t, err)
+	assert.NotNil(t, reader)
+
+	sl2 := &shoppingList{}
+	err = sl2.importYaml(reader)
+	assert.Nil(t, err)
+	assert.Equal(t, sl, sl2)
+
+	log.Println(sl2)
 }

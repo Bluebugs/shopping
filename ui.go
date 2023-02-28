@@ -10,8 +10,6 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-
-	"gopkg.in/yaml.v2"
 )
 
 func (a *appData) createUI() {
@@ -185,11 +183,7 @@ func (a *appData) importYaml(sl *shoppingList) func() {
 				if reader == nil || err != nil {
 					return
 				}
-
-				defer reader.Close()
-
-				// Import shopping list from a yaml file to the selected shopping list sl
-				err = yaml.NewDecoder(reader).Decode(sl)
+				err = sl.importYaml(reader)
 				if err != nil {
 					return
 				}
@@ -207,12 +201,9 @@ func (a *appData) exportYaml(sl *shoppingList) func() {
 				if writer == nil || err != nil {
 					return
 				}
-				defer writer.Close()
-
-				// Export shopping list sl to a yaml file
-				err = yaml.NewEncoder(writer).Encode(sl)
+				err = sl.exportYaml(writer)
 				if err != nil {
-					return
+					fyne.LogError("Error while exporting shopping list", err)
 				}
 			}, a.win)
 		}()
