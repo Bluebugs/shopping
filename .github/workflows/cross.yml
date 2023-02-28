@@ -22,7 +22,8 @@ jobs:
           - os: darwin
             args: -app-id shopping.sha${GITHUB_SHA}
             host: macos-latest
-          - os: web
+          # web is currently not supported by shopping
+          # - os: web
 
     steps:
       - name: Setup Go environment
@@ -38,7 +39,7 @@ jobs:
             ~/go/pkg/mod
             ~/.cache/go-build
             ~/.cache/fyne-cross
-          key: ${{ runner.os }}-build-cache-${{ hashFiles('**/go.sum') }}
+          key: ${{ runner.os }}-build-cache-${{ hashFiles('go.sum') }}
 
       - name: Install Fyne and Fyne-cross
         run: |
