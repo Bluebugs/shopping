@@ -44,10 +44,8 @@ func main() {
 	if err := myApp.loadShoppingLists(); err != nil {
 		log.Panic(err)
 	}
+	defer myApp.Close()
 
 	myApp.createUI()
-	myApp.win.SetOnClosed(func() {
-		myApp.Close()
-	})
 	myApp.win.ShowAndRun()
 }
