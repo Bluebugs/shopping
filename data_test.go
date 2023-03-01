@@ -78,6 +78,13 @@ func Test_importExportYaml(t *testing.T) {
 			},
 		},
 	}
+	yaml := `name: test
+items:
+- what: unchecked
+  checked: false
+- what: checked
+  checked: true
+`
 
 	tmp, err := os.CreateTemp("", "test.yaml")
 	assert.Nil(t, err)
@@ -85,6 +92,10 @@ func Test_importExportYaml(t *testing.T) {
 
 	err = sl.exportYaml(tmp)
 	assert.Nil(t, err)
+
+	b, err := os.ReadFile(tmp.Name())
+	assert.Nil(t, err)
+	assert.Equal(t, yaml, string(b))
 
 	reader, err := os.Open(tmp.Name())
 	assert.Nil(t, err)
