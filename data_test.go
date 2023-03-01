@@ -91,6 +91,7 @@ func Test_importExportYaml(t *testing.T) {
 	assert.NotNil(t, reader)
 
 	sl2 := &shoppingList{}
+	assert.NotEqual(t, sl, sl2)
 	err = sl2.importYaml(reader)
 	assert.Nil(t, err)
 	assert.Equal(t, sl, sl2)
