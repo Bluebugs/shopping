@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 	"testing"
 
@@ -95,6 +94,4 @@ func Test_importExportYaml(t *testing.T) {
 	err = sl2.importYaml(reader)
 	assert.Nil(t, err)
 	assert.Equal(t, sl, sl2)
-
-	log.Println(sl2)
 }
