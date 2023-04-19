@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"strconv"
 	"strings"
@@ -77,9 +78,9 @@ func (a *appData) buildTabItem(sl *shoppingList) *container.TabItem {
 		visibilityAction,
 		widget.NewToolbarSeparator(),
 		widget.NewToolbarAction(theme.FileTextIcon(), a.importYaml(sl)),
-		widget.NewToolbarAction(theme.DownloadIcon(), func() {}),
+		widget.NewToolbarAction(theme.DownloadIcon(), a.downloadYaml(sl)),
 		widget.NewToolbarAction(theme.DocumentSaveIcon(), a.exportYaml(sl)),
-		widget.NewToolbarAction(theme.UploadIcon(), func() {}),
+		widget.NewToolbarAction(theme.UploadIcon(), a.uploadYaml(sl)),
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(theme.ContentClearIcon(), func() {
 			keepItem := []item{}
@@ -187,11 +188,35 @@ func (a *appData) importYaml(sl *shoppingList) func() {
 				}
 				err = sl.importYaml(reader)
 				if err != nil {
+					dialog.ShowError(err, a.win)
 					return
 				}
 
 				a.saveShoppingList(sl)
 			}, a.win)
+		}()
+	}
+}
+
+func (a *appData) downloadYaml(sl *shoppingList) func() {
+	return func() {
+		go func() {
+			code := widget.NewEntry()
+
+			dialog.NewForm("Download shopping list", "Download", "Cancel",
+				[]*widget.FormItem{
+					{Text: "Code", Widget: code},
+				}, func(confirm bool) {
+					if !confirm {
+						return
+					}
+
+					ctx, cancel := context.WithCancel(context.Background())
+
+					showProgressBarInfinite(cancel, "Downloading", "Downloading shopping list", func() error {
+						return sl.downloadYaml(ctx, code.Text)
+					}, a.win)
+				}, a.win).Show()
 		}()
 	}
 }
@@ -205,8 +230,32 @@ func (a *appData) exportYaml(sl *shoppingList) func() {
 				}
 				err = sl.exportYaml(writer)
 				if err != nil {
-					fyne.LogError("Error while exporting shopping list", err)
+					dialog.ShowError(err, a.win)
 				}
+			}, a.win)
+		}()
+	}
+}
+
+func (a *appData) uploadYaml(sl *shoppingList) func() {
+	return func() {
+		go func() {
+			ctx, cancel := context.WithCancel(context.Background())
+
+			code, status, err := sl.uploadYaml(ctx)
+			if err != nil {
+				dialog.ShowError(err, a.win)
+				cancel()
+				return
+			}
+
+			showProgressBarInfinite(cancel, "Wormhole code", "Wormhole code: "+code, func() error {
+				s := <-status
+
+				if !s.OK {
+					return s.Error
+				}
+				return nil
 			}, a.win)
 		}()
 	}
