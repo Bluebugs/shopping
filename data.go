@@ -2,12 +2,14 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/binary"
 	"encoding/gob"
 	"fmt"
 	"io"
 
 	"fyne.io/fyne/v2/storage"
+	"github.com/psanford/wormhole-william/wormhole"
 	"go.etcd.io/bbolt"
 	"gopkg.in/yaml.v2"
 )
@@ -125,9 +127,44 @@ func (sl *shoppingList) exportYaml(writer io.WriteCloser) error {
 	return yaml.NewEncoder(writer).Encode(sl)
 }
 
+func (sl *shoppingList) uploadYaml(ctx context.Context) (string, chan wormhole.SendResult, error) {
+	var writer bytes.Buffer
+	err := sl.exportYaml(nopWriteCloser{Writer: &writer})
+	if err != nil {
+		return "", nil, err
+	}
+
+	var c wormhole.Client
+	code, status, err := c.SendText(ctx, writer.String())
+	if err != nil {
+		return "", nil, err
+	}
+
+	return code, status, err
+}
+
 func (sl *shoppingList) importYaml(reader io.ReadCloser) error {
 	defer reader.Close()
 
 	// Import shopping list sl from a yaml file
 	return yaml.NewDecoder(reader).Decode(sl)
+}
+
+func (sl *shoppingList) downloadYaml(ctx context.Context, code string) error {
+	var c wormhole.Client
+
+	msg, err := c.Receive(ctx, code)
+	if err != nil {
+		return err
+	}
+
+	if msg.Type != wormhole.TransferText {
+		return fmt.Errorf("expected a text message but got type %s", msg.Type)
+	}
+
+	err = sl.importYaml(io.NopCloser(msg))
+	if err != nil {
+		return err
+	}
+	return nil
 }
