@@ -81,9 +81,19 @@
 						<widget pos="85,0" size="36x36" type="*widget.Button">
 							<rectangle size="36x36"/>
 							<rectangle size="0x0"/>
-							<image fillMode="contain" pos="8,8" rsc="downloadIcon" size="iconInlineSize"/>
+							<image fillMode="contain" pos="8,8" rsc="fileTextIcon" size="iconInlineSize"/>
 						</widget>
 						<widget pos="125,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="downloadIcon" size="iconInlineSize"/>
+						</widget>
+						<widget pos="165,0" size="36x36" type="*widget.Button">
+							<rectangle size="36x36"/>
+							<rectangle size="0x0"/>
+							<image fillMode="contain" pos="8,8" rsc="documentSaveIcon" size="iconInlineSize"/>
+						</widget>
+						<widget pos="205,0" size="36x36" type="*widget.Button">
 							<rectangle size="36x36"/>
 							<rectangle size="0x0"/>
 							<image fillMode="contain" pos="8,8" rsc="upload.svg" size="iconInlineSize" themed="default"/>

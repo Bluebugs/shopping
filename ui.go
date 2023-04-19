@@ -76,8 +76,10 @@ func (a *appData) buildTabItem(sl *shoppingList) *container.TabItem {
 		widget.NewToolbarAction(theme.ContentAddIcon(), a.addItem(sl)),
 		visibilityAction,
 		widget.NewToolbarSeparator(),
-		widget.NewToolbarAction(theme.DownloadIcon(), a.importYaml(sl)),
-		widget.NewToolbarAction(theme.UploadIcon(), a.exportYaml(sl)),
+		widget.NewToolbarAction(theme.FileTextIcon(), a.importYaml(sl)),
+		widget.NewToolbarAction(theme.DownloadIcon(), func() {}),
+		widget.NewToolbarAction(theme.DocumentSaveIcon(), a.exportYaml(sl)),
+		widget.NewToolbarAction(theme.UploadIcon(), func() {}),
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(theme.ContentClearIcon(), func() {
 			keepItem := []item{}
