@@ -146,6 +146,21 @@ func Test_AddModifyRemoveShoppingList(t *testing.T) {
 	assert.Len(t, a.shoppingLists[0].Items, 2)
 }
 
+func Test_DownloadButton(t *testing.T) {
+	a, done := setupAppDataWithTemporaryDb()
+	defer done()
+	assert.NotNil(t, a)
+
+	a.createUI()
+	assert.NotNil(t, a.tabs)
+
+	test.AssertRendersToImage(t, "create_ui.png", a.win.Canvas())
+	test.AssertRendersToMarkup(t, "create_ui.markup", a.win.Canvas())
+
+	test.TapCanvas(a.win.Canvas(), fyne.NewPos(226, 575))
+	test.AssertRendersToImage(t, "download.png", a.win.Canvas())
+}
+
 func Test_InfinitPorgressDialogNoError(t *testing.T) {
 	a, done := setupAppDataWithTemporaryDb()
 	defer done()
