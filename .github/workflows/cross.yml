@@ -59,7 +59,7 @@ jobs:
 
       - name: Build
         run: |
-          unset SSH_AUTH_SOCK \
+          unset SSH_AUTH_SOCK; \
           fyne-cross \
             ${{ matrix.target.os }} \
             ${{ matrix.target.args }} \
