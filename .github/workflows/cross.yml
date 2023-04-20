@@ -20,7 +20,7 @@ jobs:
           - os: android
             args: -app-id shopping.sha${GITHUB_SHA}
           - os: darwin
-            args: -app-id shopping.sha${GITHUB_SHA}
+            args: -app-id shopping.sha${GITHUB_SHA} -local
             host: macos-latest
           # web is currently not supported by shopping
           # - os: web
