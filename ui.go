@@ -198,25 +198,30 @@ func (a *appData) importYaml(sl *shoppingList) func() {
 	}
 }
 
+func (sl *shoppingList) downloadYamlDialog(ctx context.Context, cancel context.CancelFunc, win fyne.Window) (dialog.Dialog, *widget.Entry) {
+	code := widget.NewEntry()
+
+	d := dialog.NewForm("Download shopping list", "Download", "Cancel",
+		[]*widget.FormItem{
+			{Text: "Code", Widget: code},
+		}, func(confirm bool) {
+			if !confirm {
+				return
+			}
+
+			showProgressBarInfinite(cancel, "Downloading", "Downloading shopping list", func() error {
+				return sl.downloadYaml(ctx, code.Text)
+			}, win)
+		}, win)
+	return d, code
+}
+
 func (a *appData) downloadYaml(sl *shoppingList) func() {
 	return func() {
 		go func() {
-			code := widget.NewEntry()
-
-			dialog.NewForm("Download shopping list", "Download", "Cancel",
-				[]*widget.FormItem{
-					{Text: "Code", Widget: code},
-				}, func(confirm bool) {
-					if !confirm {
-						return
-					}
-
-					ctx, cancel := context.WithCancel(context.Background())
-
-					showProgressBarInfinite(cancel, "Downloading", "Downloading shopping list", func() error {
-						return sl.downloadYaml(ctx, code.Text)
-					}, a.win)
-				}, a.win).Show()
+			ctx, cancel := context.WithCancel(context.Background())
+			d, _ := sl.downloadYamlDialog(ctx, cancel, a.win)
+			d.Show()
 		}()
 	}
 }
@@ -237,26 +242,30 @@ func (a *appData) exportYaml(sl *shoppingList) func() {
 	}
 }
 
+func (sl *shoppingList) uploadYamlDialog(ctx context.Context, cancel context.CancelFunc, win fyne.Window) string {
+	code, status, err := sl.uploadYaml(ctx)
+	if err != nil {
+		dialog.ShowError(err, win)
+		cancel()
+		return ""
+	}
+
+	showProgressBarInfinite(cancel, "Wormhole code", "Wormhole code: "+code, func() error {
+		s := <-status
+
+		if !s.OK {
+			return s.Error
+		}
+		return nil
+	}, win)
+	return code
+}
+
 func (a *appData) uploadYaml(sl *shoppingList) func() {
 	return func() {
 		go func() {
 			ctx, cancel := context.WithCancel(context.Background())
-
-			code, status, err := sl.uploadYaml(ctx)
-			if err != nil {
-				dialog.ShowError(err, a.win)
-				cancel()
-				return
-			}
-
-			showProgressBarInfinite(cancel, "Wormhole code", "Wormhole code: "+code, func() error {
-				s := <-status
-
-				if !s.OK {
-					return s.Error
-				}
-				return nil
-			}, a.win)
+			sl.uploadYamlDialog(ctx, cancel, a.win)
 		}()
 	}
 }
