@@ -1,8 +1,11 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"os"
 	"testing"
+	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/test"
@@ -141,4 +144,60 @@ func Test_AddModifyRemoveShoppingList(t *testing.T) {
 
 	assert.Len(t, a.shoppingLists, 1)
 	assert.Len(t, a.shoppingLists[0].Items, 2)
+}
+
+func Test_InfinitPorgressDialogNoError(t *testing.T) {
+	a, done := setupAppDataWithTemporaryDb()
+	defer done()
+	assert.NotNil(t, a)
+
+	a.createUI()
+	assert.NotNil(t, a.tabs)
+
+	test.AssertRendersToImage(t, "create_ui.png", a.win.Canvas())
+	test.AssertRendersToMarkup(t, "create_ui.markup", a.win.Canvas())
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+
+	driveCtx, driveCancel := context.WithCancel(context.Background())
+
+	showProgressBarInfinite(cancel, "test title", "test message", func() error {
+		<-driveCtx.Done()
+		return nil
+	}, a.win)
+
+	test.AssertRendersToImage(t, "progress_dialog.png", a.win.Canvas())
+
+	driveCancel()
+	<-ctx.Done()
+
+	test.AssertRendersToImage(t, "create_ui.png", a.win.Canvas())
+}
+
+func Test_InfinitPorgressDialogWithError(t *testing.T) {
+	a, done := setupAppDataWithTemporaryDb()
+	defer done()
+	assert.NotNil(t, a)
+
+	a.createUI()
+	assert.NotNil(t, a.tabs)
+
+	test.AssertRendersToImage(t, "create_ui.png", a.win.Canvas())
+	test.AssertRendersToMarkup(t, "create_ui.markup", a.win.Canvas())
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+
+	driveCtx, driveCancel := context.WithCancel(context.Background())
+
+	showProgressBarInfinite(cancel, "test title", "test message", func() error {
+		<-driveCtx.Done()
+		return fmt.Errorf("test error")
+	}, a.win)
+
+	test.AssertRendersToImage(t, "progress_dialog.png", a.win.Canvas())
+
+	driveCancel()
+	<-ctx.Done()
+
+	test.AssertRendersToImage(t, "error_dialog.png", a.win.Canvas())
 }
