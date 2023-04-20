@@ -46,6 +46,7 @@ func main() {
 	}
 	defer myApp.Close()
 
+	selfManage(a, myApp.win)
 	myApp.createUI()
 	myApp.win.ShowAndRun()
 }
