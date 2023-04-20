@@ -24,10 +24,11 @@ func showProgressBarInfinite(cancel context.CancelFunc, title, text string, bloc
 
 	go func() {
 		err := blocking()
-		d.Hide()
-
 		if err != nil && !cancelled {
+			d.Hide()
 			dialog.ShowError(err, parent)
+		} else {
+			d.Hide()
 		}
 	}()
 
