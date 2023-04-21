@@ -4,6 +4,8 @@ go 1.19
 
 require (
 	fyne.io/fyne/v2 v2.3.3
+	github.com/fynelabs/fyneselfupdate v0.1.0
+	github.com/fynelabs/selfupdate v0.2.0
 	github.com/psanford/wormhole-william v1.0.6
 	github.com/stretchr/testify v1.8.2
 	go.etcd.io/bbolt v1.3.7
@@ -20,8 +22,6 @@ require (
 	github.com/fyne-io/gl-js v0.0.0-20220119005834-d2da28d9ccfe // indirect
 	github.com/fyne-io/glfw-js v0.0.0-20220120001248-ee7290d23504 // indirect
 	github.com/fyne-io/image v0.0.0-20220602074514-4956b0afb3d2 // indirect
-	github.com/fynelabs/fyneselfupdate v0.1.0 // indirect
-	github.com/fynelabs/selfupdate v0.2.0 // indirect
 	github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20221017161538-93cebf72946b // indirect
 	github.com/go-text/typesetting v0.0.0-20221212183139-1eb938670a1f // indirect
@@ -35,7 +35,7 @@ require (
 	github.com/srwiley/rasterx v0.0.0-20210519020934-456a8d69b780 // indirect
 	github.com/tevino/abool v1.2.0 // indirect
 	github.com/yuin/goldmark v1.4.13 // indirect
-	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
+	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/image v0.5.0 // indirect
 	golang.org/x/mobile v0.0.0-20211207041440-4e6c2922fdee // indirect
 	golang.org/x/net v0.7.0 // indirect
