@@ -9,7 +9,7 @@ require (
 	github.com/psanford/wormhole-william v1.0.6
 	github.com/stretchr/testify v1.8.2
 	go.etcd.io/bbolt v1.3.7
-	golang.org/x/sync v0.1.0
+	golang.org/x/sync v0.2.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
