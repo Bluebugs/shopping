@@ -10,7 +10,11 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func showProgressBarInfinite(cancel context.CancelFunc, title, text string, blocking func() error, parent fyne.Window) {
+func showProgressBarInfinite(cancel context.CancelFunc,
+	title, text string,
+	blocking func() error,
+	parent fyne.Window) {
+
 	displayCode := container.NewHBox(layout.NewSpacer(), widget.NewLabel(text), layout.NewSpacer())
 	content := container.NewVBox(displayCode, widget.NewProgressBarInfinite())
 

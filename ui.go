@@ -198,7 +198,9 @@ func (a *appData) importYaml(sl *shoppingList) func() {
 	}
 }
 
-func (sl *shoppingList) downloadYamlDialog(ctx context.Context, cancel context.CancelFunc, win fyne.Window) (dialog.Dialog, *widget.Entry) {
+func (sl *shoppingList) downloadYamlDialog(win fyne.Window) (dialog.Dialog, *widget.Entry) {
+	ctx, cancel := context.WithCancel(context.Background())
+
 	code := widget.NewEntry()
 
 	d := dialog.NewForm("Download shopping list", "Download", "Cancel",
@@ -218,11 +220,8 @@ func (sl *shoppingList) downloadYamlDialog(ctx context.Context, cancel context.C
 
 func (a *appData) downloadYaml(sl *shoppingList) func() {
 	return func() {
-		go func() {
-			ctx, cancel := context.WithCancel(context.Background())
-			d, _ := sl.downloadYamlDialog(ctx, cancel, a.win)
-			d.Show()
-		}()
+		d, _ := sl.downloadYamlDialog(a.win)
+		d.Show()
 	}
 }
 
@@ -242,7 +241,9 @@ func (a *appData) exportYaml(sl *shoppingList) func() {
 	}
 }
 
-func (sl *shoppingList) uploadYamlDialog(ctx context.Context, cancel context.CancelFunc, win fyne.Window) string {
+func (sl *shoppingList) uploadYamlDialog(win fyne.Window) string {
+	ctx, cancel := context.WithCancel(context.Background())
+
 	code, status, err := sl.uploadYaml(ctx)
 	if err != nil {
 		dialog.ShowError(err, win)
@@ -263,10 +264,7 @@ func (sl *shoppingList) uploadYamlDialog(ctx context.Context, cancel context.Can
 
 func (a *appData) uploadYaml(sl *shoppingList) func() {
 	return func() {
-		go func() {
-			ctx, cancel := context.WithCancel(context.Background())
-			sl.uploadYamlDialog(ctx, cancel, a.win)
-		}()
+		sl.uploadYamlDialog(a.win)
 	}
 }
 
