@@ -11,6 +11,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/test"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -34,7 +35,7 @@ func Test_UploadDownloadYaml(t *testing.T) {
 	defer cancel()
 
 	code, status, err := slUploaded.uploadYaml(ctx)
-	assert.Nil(t, err)
+	require.Nil(t, err)
 	assert.NotNil(t, status)
 	assert.NotEmpty(t, code)
 
@@ -87,7 +88,7 @@ func Test_DownloadButtonInteraction(t *testing.T) {
 	defer cancel()
 
 	code, status, err := slUploaded.uploadYaml(ctx)
-	assert.Nil(t, err)
+	require.Nil(t, err)
 	assert.NotNil(t, status)
 	assert.NotEmpty(t, code)
 
