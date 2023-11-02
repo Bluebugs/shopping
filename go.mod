@@ -6,7 +6,7 @@ require (
 	fyne.io/fyne/v2 v2.3.4
 	github.com/fynelabs/fyneselfupdate v0.1.0
 	github.com/fynelabs/selfupdate v0.2.0
-	github.com/psanford/wormhole-william v1.0.6
+	github.com/psanford/wormhole-william v1.0.7
 	github.com/stretchr/testify v1.8.4
 	go.etcd.io/bbolt v1.3.8
 	golang.org/x/sync v0.4.0
@@ -28,7 +28,7 @@ require (
 	github.com/goki/freetype v0.0.0-20220119013949-7a161fd3728c // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e // indirect
-	github.com/klauspost/compress v1.11.13 // indirect
+	github.com/klauspost/compress v1.15.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/srwiley/oksvg v0.0.0-20220731023508-a61f04f16b76 // indirect
 	github.com/srwiley/rasterx v0.0.0-20210519020934-456a8d69b780 // indirect
@@ -42,6 +42,6 @@ require (
 	golang.org/x/text v0.13.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	honnef.co/go/js/dom v0.0.0-20210725211120-f030747120f2 // indirect
-	nhooyr.io/websocket v1.8.6 // indirect
-	salsa.debian.org/vasudev/gospake2 v0.0.0-20180813171123-adcc69dd31d5 // indirect
+	nhooyr.io/websocket v1.8.7 // indirect
+	salsa.debian.org/vasudev/gospake2 v0.0.0-20210510093858-d91629950ad1 // indirect
 )
