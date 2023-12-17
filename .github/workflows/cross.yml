@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Setup Go environment
         id: setup-go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
           go-version: '1.21'
 
