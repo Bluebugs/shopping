@@ -15,19 +15,19 @@
 					</widget>
 					<container pos="0,556" size="154x36">
 						<widget size="36x36" type="*widget.Button">
+							<rectangle radius="4" size="36x36"/>
 							<rectangle size="36x36"/>
-							<rectangle fillColor="rgba(0,0,0,0)" size="36x36"/>
 							<image fillMode="contain" pos="8,8" rsc="contentAddIcon" size="iconInlineSize"/>
 						</widget>
 						<widget pos="40,0" size="36x36" type="*widget.Button">
+							<rectangle radius="4" size="36x36"/>
 							<rectangle size="36x36"/>
-							<rectangle size="0x0"/>
 							<image fillMode="contain" pos="8,8" rsc="more-vertical.svg" size="iconInlineSize" themed="default"/>
 						</widget>
 					</container>
 				</container>
 				<rectangle fillColor="shadow" pos="154,0" size="4x592"/>
-				<rectangle fillColor="primary" pos="154,40" size="4x36"/>
+				<rectangle fillColor="primary" pos="154,40" radius="4" size="4x36"/>
 				<container pos="158,0" size="633x592">
 					<widget pos="0,39" size="633x512" type="*widget.List">
 						<widget size="633x512" type="*widget.Scroll">
@@ -37,8 +37,8 @@
 					</widget>
 					<container size="633x35">
 						<widget pos="53,0" size="579x35" type="*widget.Entry">
-							<rectangle fillColor="inputBackground" pos="2,2" size="575x31"/>
-							<rectangle pos="1,1" size="577x32" strokeColor="inputBorder" strokeWidth="2"/>
+							<rectangle fillColor="inputBackground" pos="2,2" radius="4" size="575x31"/>
+							<rectangle pos="1,1" radius="4" size="577x32" strokeColor="inputBorder" strokeWidth="2"/>
 							<widget pos="0,2" size="579x31" type="*widget.Scroll">
 								<widget size="579x31" type="*widget.entryContent">
 									<widget size="579x31" type="*widget.RichText">
@@ -56,40 +56,40 @@
 					</container>
 					<widget pos="0,556" size="633x36" type="*widget.Toolbar">
 						<widget size="36x36" type="*widget.Button">
+							<rectangle radius="4" size="36x36"/>
 							<rectangle size="36x36"/>
-							<rectangle fillColor="rgba(0,0,0,0)" size="36x36"/>
 							<image fillMode="contain" pos="8,8" rsc="contentAddIcon" size="iconInlineSize"/>
 						</widget>
 						<widget pos="40,0" size="36x36" type="*widget.Button">
+							<rectangle radius="4" size="36x36"/>
 							<rectangle size="36x36"/>
-							<rectangle size="0x0"/>
 							<image fillMode="contain" pos="8,8" rsc="visibilityIcon" size="iconInlineSize"/>
 						</widget>
 						<rectangle fillColor="foreground" pos="80,0" size="1x36"/>
 						<widget pos="85,0" size="36x36" type="*widget.Button">
+							<rectangle radius="4" size="36x36"/>
 							<rectangle size="36x36"/>
-							<rectangle size="0x0"/>
 							<image fillMode="contain" pos="8,8" rsc="fileTextIcon" size="iconInlineSize"/>
 						</widget>
 						<widget pos="125,0" size="36x36" type="*widget.Button">
+							<rectangle radius="4" size="36x36"/>
 							<rectangle size="36x36"/>
-							<rectangle size="0x0"/>
 							<image fillMode="contain" pos="8,8" rsc="downloadIcon" size="iconInlineSize"/>
 						</widget>
 						<widget pos="165,0" size="36x36" type="*widget.Button">
+							<rectangle radius="4" size="36x36"/>
 							<rectangle size="36x36"/>
-							<rectangle size="0x0"/>
 							<image fillMode="contain" pos="8,8" rsc="documentSaveIcon" size="iconInlineSize"/>
 						</widget>
 						<widget pos="205,0" size="36x36" type="*widget.Button">
+							<rectangle radius="4" size="36x36"/>
 							<rectangle size="36x36"/>
-							<rectangle size="0x0"/>
 							<image fillMode="contain" pos="8,8" rsc="upload.svg" size="iconInlineSize" themed="default"/>
 						</widget>
 						<spacer size="0x0"/>
 						<widget pos="597,0" size="36x36" type="*widget.Button">
+							<rectangle radius="4" size="36x36"/>
 							<rectangle size="36x36"/>
-							<rectangle size="0x0"/>
 							<image fillMode="contain" pos="8,8" rsc="contentClearIcon" size="iconInlineSize"/>
 						</widget>
 					</widget>
@@ -121,8 +121,8 @@
 						<container size="176x35">
 							<text alignment="trailing" bold pos="8,8" size="41x19">Name</text>
 							<widget pos="61,0" size="114x35" type="*widget.Entry">
-								<rectangle fillColor="inputBackground" pos="2,2" size="110x31"/>
-								<rectangle pos="1,1" size="112x32" strokeColor="primary" strokeWidth="2"/>
+								<rectangle fillColor="inputBackground" pos="2,2" radius="4" size="110x31"/>
+								<rectangle pos="1,1" radius="4" size="112x32" strokeColor="primary" strokeWidth="2"/>
 								<widget pos="0,2" size="114x31" type="*widget.Scroll">
 									<widget size="114x31" type="*widget.entryContent">
 										<widget size="114x31" type="*widget.RichText">
@@ -139,24 +139,22 @@
 					</container>
 				</widget>
 				<container pos="16,90" size="176x36">
-					<spacer size="0x0"/>
 					<widget size="86x36" type="*widget.Button">
-						<rectangle fillColor="button" size="86x36"/>
-						<rectangle size="0x0"/>
+						<rectangle fillColor="button" radius="4" size="86x36"/>
+						<rectangle size="86x36"/>
 						<widget pos="32,8" size="46x20" type="*widget.RichText">
 							<text alignment="center" bold size="46x19">Cancel</text>
 						</widget>
 						<image fillMode="contain" pos="8,8" rsc="cancelIcon" size="iconInlineSize"/>
 					</widget>
 					<widget pos="90,0" size="86x36" type="*widget.Button">
-						<rectangle fillColor="primary" size="86x36"/>
-						<rectangle size="0x0"/>
+						<rectangle fillColor="primary" radius="4" size="86x36"/>
+						<rectangle size="86x36"/>
 						<widget pos="32,8" size="46x20" type="*widget.RichText">
 							<text alignment="center" bold color="background" size="46x19">Create</text>
 						</widget>
 						<image fillMode="contain" pos="8,8" rsc="confirmIcon" size="iconInlineSize" themed="inverted"/>
 					</widget>
-					<spacer size="0x0"/>
 				</container>
 				<widget size="0x0" type="*widget.Label">
 					<text bold pos="8,8" size="135x19">New shopping item</text>
