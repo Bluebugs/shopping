@@ -35,7 +35,7 @@ func saveShoppingListInTx(tx *bbolt.Tx, sl *shoppingList) error {
 }
 
 func (a *appData) loadShoppingListsFromDB() error {
-	a.db.View(func(tx *bbolt.Tx) error {
+	return a.db.View(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("shoppingLists"))
 		if b == nil {
 			return nil
@@ -57,8 +57,6 @@ func (a *appData) loadShoppingListsFromDB() error {
 			return nil
 		})
 	})
-
-	return nil
 }
 
 func (a *appData) loadShoppingLists() error {

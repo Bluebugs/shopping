@@ -24,14 +24,14 @@ func (a *appData) createUI() {
 	a.tabs.OnClosed = func(item *container.TabItem) {
 		for index, value := range a.shoppingLists {
 			if value.Name == item.Text {
-				a.deleteShoppingList(index, value)
+				_ = a.deleteShoppingList(index, value)
 				return
 			}
 		}
 	}
 	a.tabs.SetTabLocation(container.TabLocationLeading)
 
-	a.win.SetContent(container.NewMax(a.tabs))
+	a.win.SetContent(container.NewStack(a.tabs))
 	a.win.Resize(fyne.NewSize(800, 600))
 }
 
@@ -90,7 +90,7 @@ func (a *appData) buildTabItem(sl *shoppingList) *container.TabItem {
 				}
 			}
 			sl.Items = keepItem
-			a.saveShoppingList(sl)
+			_ = a.saveShoppingList(sl)
 			sl.list.Refresh()
 		}),
 	)
@@ -123,7 +123,7 @@ func (a *appData) createTab() *container.TabItem {
 		[]*widget.FormItem{{Text: "Name", Widget: newShoppingLocationEntry}}, func(confirm bool) {
 			if confirm {
 				newShoppingList.Name = newShoppingLocationEntry.Text
-				a.saveShoppingList(newShoppingList)
+				_ = a.saveShoppingList(newShoppingList)
 
 				newDocItem.Text = newShoppingList.Name
 				a.tabs.Refresh()
@@ -131,7 +131,7 @@ func (a *appData) createTab() *container.TabItem {
 				a.tabs.Remove(newDocItem)
 				for index, value := range a.shoppingLists {
 					if value == newShoppingList {
-						a.deleteShoppingList(index, value)
+						_ = a.deleteShoppingList(index, value)
 					}
 				}
 			}
@@ -156,7 +156,7 @@ func (a *appData) setFilteredItem(sl *shoppingList, filter string, displayChecke
 			c.Checked = i.Checked
 			c.OnChanged = func(b bool) {
 				sl.Items[realIndex].Checked = b
-				a.saveShoppingList(sl)
+				_ = a.saveShoppingList(sl)
 			}
 			c.Refresh()
 			return
@@ -171,7 +171,7 @@ func (a *appData) addItem(sl *shoppingList) func() {
 			[]*widget.FormItem{{Text: "Name", Widget: newItemEntry}}, func(confirm bool) {
 				if confirm {
 					sl.Items = append(sl.Items, item{What: newItemEntry.Text})
-					a.saveShoppingList(sl)
+					_ = a.saveShoppingList(sl)
 					sl.list.Refresh()
 				}
 			}, a.win)
@@ -192,7 +192,7 @@ func (a *appData) importYaml(sl *shoppingList) func() {
 					return
 				}
 
-				a.saveShoppingList(sl)
+				_ = a.saveShoppingList(sl)
 			}, a.win)
 		}()
 	}
