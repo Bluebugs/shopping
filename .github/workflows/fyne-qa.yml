@@ -21,10 +21,10 @@ jobs:
       - name: Install fyne from develop branch
         run: |
           sudo apt-get update && sudo apt-get install gcc libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev libx11-dev xorg-dev
-          go install fyne.io/fyne/v2/cmd/fyne@{{ inputs.branch }}
+          go install fyne.io/fyne/v2/cmd/fyne@${{ inputs.branch }}
 
       - name: Switch to requested branch
-        run: go get fyne.io/fyne/v2@${{ inputs.branch }}
+        run: go get fyne.io/fyne/v2@$${{ inputs.branch }}
 
       - name: Run test
         run: go test -tags network ./...
