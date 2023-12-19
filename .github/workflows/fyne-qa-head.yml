@@ -7,12 +7,12 @@ on:
 
 jobs:
   qa-develop:
-    uses: Bluebugs/shopping/.github/workflows/qa.yml@main
+    uses: Bluebugs/shopping/.github/workflows/fyne-qa.yml@main
     with:
       branch: develop
 
   qa-master:
-    uses: Bluebugs/shopping/.github/workflows/qa.yml@main
+    uses: Bluebugs/shopping/.github/workflows/fyne-qa.yml@main
     with:
       branch: master
         
