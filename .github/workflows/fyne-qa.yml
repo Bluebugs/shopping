@@ -24,7 +24,7 @@ jobs:
           go install fyne.io/fyne/v2/cmd/fyne@${{ inputs.branch }}
 
       - name: Switch to requested branch
-        run: go get fyne.io/fyne/v2@${{ inputs.branch }}
+        run: GOPROXY=direct go get fyne.io/fyne/v2@${{ inputs.branch }}
 
       - name: Run test
         run: go test -tags network ./...

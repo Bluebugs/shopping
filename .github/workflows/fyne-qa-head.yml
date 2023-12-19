@@ -16,3 +16,7 @@ jobs:
     with:
       branch: master
         
+  qa-v2.4.x:
+    uses: Bluebugs/shopping/.github/workflows/fyne-qa.yml@main
+    with:
+      branch: release/v2.4.x
