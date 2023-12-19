@@ -1,0 +1,33 @@
+name: Run tests using fyne latest version
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        description: 'Branch to run tests on'
+        required: true
+        default: 'master'
+        type: string
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 1.21
+
+      - name: Install fyne from develop branch
+        run: |
+          sudo apt-get update && sudo apt-get install gcc libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev libx11-dev xorg-dev
+          go install fyne.io/fyne/v2/cmd/fyne@{{ github.event.inputs.branch }}
+
+      - name: Switch to requested branch
+        run: go get fyne.io/fyne/v2@${{ github.event.inputs.branch }}
+
+      - name: Run test
+        run: go test -tags network ./...
+
+      - name: Build the application with fyne
+        run: fyne package      
