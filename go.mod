@@ -3,7 +3,7 @@ module github.com/Bluebugs/shopping
 go 1.21
 
 require (
-	fyne.io/fyne/v2 v2.4.2
+	fyne.io/fyne/v2 v2.4.3
 	github.com/fynelabs/fyneselfupdate v0.1.0
 	github.com/fynelabs/selfupdate v0.2.0
 	github.com/psanford/wormhole-william v1.0.7
