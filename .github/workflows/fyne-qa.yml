@@ -11,17 +11,25 @@ on:
 
 jobs:
   qa:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        go-version: [1.17, 1.21]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: 1.21
+          go-version: ${{ matrix.go-version }}
 
-      - name: Install fyne from develop branch
+      - name: Install fyne dependencies
+        if: ${{ runner.os == 'Linux' }}
         run: |
           sudo apt-get update && sudo apt-get install gcc libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev libx11-dev xorg-dev
-          GOPROXY=direct go install fyne.io/fyne/v2/cmd/fyne@${{ inputs.branch }}
+
+      - name: Install fyne
+        run: GOPROXY=direct go install fyne.io/fyne/v2/cmd/fyne@${{ inputs.branch }}
 
       - name: Switch to requested branch
         run: |
