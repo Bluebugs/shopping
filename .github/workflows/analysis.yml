@@ -20,6 +20,6 @@ jobs:
           sudo apt-get update && sudo apt-get install gcc libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev libx11-dev xorg-dev
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3          
+        uses: golangci/golangci-lint-action@v4          
         with:
           args: --timeout=30m
